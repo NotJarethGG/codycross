@@ -57,7 +57,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   height: 100vh;
   padding: clamp(2rem, 8vw, 8rem);
   opacity: 0;
@@ -182,6 +183,7 @@ body {
 .error-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.5rem;
   margin-top: 0.5rem;
 }
@@ -248,7 +250,4 @@ body {
   width: 1px;
   height: 100vh;
   background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
-}
-.read-the-docs {
-  color: #888;
 }
