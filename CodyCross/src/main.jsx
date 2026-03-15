@@ -5,6 +5,6 @@ import Cody from './Cody.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Cody />
+    {/* <Cody /> */}
   </StrictMode>,
 )
