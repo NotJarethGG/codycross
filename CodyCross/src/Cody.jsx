@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles.css";
 
 const WORDS = [
@@ -61,7 +62,6 @@ function buildWordCells(cellMap) {
 const CELL_MAP   = buildCellMap();
 const WORD_CELLS = buildWordCells(CELL_MAP);
 
-// Number labels
 const NUMBER_LABELS = {};
 let labelCounter = 1;
 const sortedLayout = [...LAYOUT].sort((a, b) => a.row !== b.row ? a.row - b.row : a.col - b.col);
@@ -72,7 +72,9 @@ for (const w of sortedLayout) {
 const WORD_NUMBER = {};
 for (const w of LAYOUT) WORD_NUMBER[w.id] = NUMBER_LABELS[`${w.row},${w.col}`];
 
-export default function App() {
+export default function Cody() {
+  const navigate = useNavigate();
+
   const [inputs, setInputs] = useState(() => {
     const init = {};
     for (const w of WORDS) init[w.id] = Array(w.answer.length).fill("");
@@ -81,10 +83,27 @@ export default function App() {
   const [activeWord, setActiveWord] = useState(null);
   const [activeCell, setActiveCell] = useState(null);
   const [revealed,  setRevealed]  = useState({});
+  const [countdown, setCountdown] = useState(null);
   const inputRefs = useRef({});
 
   const isWordSolved = (id) => inputs[id].join("") === WORDS.find(w => w.id === id).answer;
   const allSolved = WORDS.every(w => isWordSolved(w.id));
+
+  // Arranca el contador cuando se completa el crucigrama
+  useEffect(() => {
+    if (allSolved) setCountdown(10);
+  }, [allSolved]);
+
+  // Cuenta regresiva y redirige al llegar a 0
+  useEffect(() => {
+    if (countdown === null) return;
+    if (countdown === 0) {
+      navigate("/404");
+      return;
+    }
+    const t = setTimeout(() => setCountdown(c => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [countdown, navigate]);
 
   const getCellValue = (r, c) => {
     const cell = CELL_MAP[r]?.[c];
@@ -202,6 +221,7 @@ export default function App() {
     setActiveWord(null);
     setActiveCell(null);
     setRevealed({});
+    setCountdown(null);
   };
 
   const horizontalWords = LAYOUT.filter(w => w.dir === "H").map(w => w.id);
@@ -211,18 +231,18 @@ export default function App() {
     const cell = CELL_MAP[r]?.[c];
     if (!cell) return <td key={c} className="cell-empty" />;
 
-    const val        = getCellValue(r, c);
-    const isActive   = activeCell?.r === r && activeCell?.c === c;
-    const inWord     = activeWord !== null && cell.wordCells.some(wc => wc.wordId === activeWord);
-    const isSolved   = cell.wordCells.every(wc => isWordSolved(wc.wordId));
-    const isRev      = cell.wordCells.some(wc => revealed[wc.wordId]);
-    const label      = NUMBER_LABELS[`${r},${c}`];
+    const val      = getCellValue(r, c);
+    const isActive = activeCell?.r === r && activeCell?.c === c;
+    const inWord   = activeWord !== null && cell.wordCells.some(wc => wc.wordId === activeWord);
+    const isSolved = cell.wordCells.every(wc => isWordSolved(wc.wordId));
+    const isRev    = cell.wordCells.some(wc => revealed[wc.wordId]);
+    const label    = NUMBER_LABELS[`${r},${c}`];
 
     let cls = "cell-letter";
-    if (isActive)  cls += " cell-active";
+    if (isActive)    cls += " cell-active";
     else if (inWord) cls += " cell-highlight";
-    if (isSolved)  cls += " cell-solved";
-    if (isRev)     cls += " cell-revealed";
+    if (isSolved)    cls += " cell-solved";
+    if (isRev)       cls += " cell-revealed";
 
     return (
       <td key={c} className={cls} onClick={() => handleCellClick(r, c)}>
@@ -255,7 +275,6 @@ export default function App() {
 
   return (
     <div className="cc-app">
-      {/* Decorative lab bubbles background */}
       <div className="lab-bg" aria-hidden="true">
         <span className="bubble b1">🧪</span>
         <span className="bubble b2">⚗️</span>
@@ -285,7 +304,10 @@ export default function App() {
                 strokeDasharray={`${(WORDS.filter(w=>isWordSolved(w.id)).length/WORDS.length)*100} 100`}
                 strokeDashoffset="25" strokeLinecap="round" pathLength="100"/>
             </svg>
-            <span className="score-num">{WORDS.filter(w => isWordSolved(w.id)).length}<span className="score-total">/{WORDS.length}</span></span>
+            <span className="score-num">
+              {WORDS.filter(w => isWordSolved(w.id)).length}
+              <span className="score-total">/{WORDS.length}</span>
+            </span>
           </div>
           <div className="score-label">resueltas</div>
         </div>
@@ -293,7 +315,6 @@ export default function App() {
 
       {/* ── Main ── */}
       <div className="cc-main">
-        {/* Grid */}
         <div className="cc-grid-wrap">
           <div className="grid-label">🧩 Crucigrama</div>
           <table className="cc-grid">
@@ -307,7 +328,6 @@ export default function App() {
           </table>
         </div>
 
-        {/* Clues */}
         <div className="cc-clues">
           <div className="clue-section">
             <h3 className="clue-heading"><span className="clue-arrow">➡</span> Horizontales</h3>
@@ -381,14 +401,18 @@ export default function App() {
       {allSolved && (
         <div className="cc-win-overlay">
           <div className="cc-win-box">
+
             <div className="win-confetti">🎉🧪🔬⚗️🎊</div>
-            <h2>¡Laboratorio Completado!</h2>
-            <p>¡Excelente trabajo! Todos los términos resueltos.</p>
-            <div className="win-authors">
-              <p className="win-authors-label">Desarrollado por:</p>
-              {AUTHORS.map((a,i) => <span key={i} className="win-author-name">{a}</span>)}
+
+            <h2>¡Crucigrama Completado!</h2>
+            <p>¡Excelente trabajo! Resolviste todos los términos.</p>
+
+            {/* Contador */}
+            <div className="win-countdown">
+              <span className="countdown-num">{countdown ?? 10}</span>
             </div>
-            <button onClick={resetAll}>↺ Jugar de nuevo</button>
+            <p className="countdown-label">Redirigiendo en {countdown ?? 10}s…</p>
+
           </div>
         </div>
       )}
