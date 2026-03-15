@@ -29,17 +29,7 @@ function App() {
       <div className="scanlines" />
 
       {/* Spotify — esquina superior derecha, autoplay activado */}
-      <div className="spotify-wrap">
-        <iframe
-          style={{ borderRadius: '12px' }}
-          src="https://open.spotify.com/embed/track/7lcbpfihslisNObKdHjyLo?utm_source=generator&theme=0&autoplay=1"
-          width="300"
-          height="80"
-          frameBorder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="eager"
-        />
-      </div>
+  
 
       <div className="error-container">
         <div className="error-code-wrap">
