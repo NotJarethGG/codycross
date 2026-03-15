@@ -68,9 +68,12 @@ function App() {
             Completaste el crucigrama de automatización<br />
             en laboratorio clínico. ¡Excelente trabajo!
           </p>
-          <p className="error-tagline">
-            Esperamos que hayas aprendido algo nuevo hoy 🔬✌🏼
+           <p className="error-tagline">
+            Esperamos que hayas aprendido algo nuevo hoy
           </p>
+          <h4 className="nota">
+              ¡Mínimo 100 de nota! 🍡
+          </h4>
 
           {/* ── Autores ── */}
           <div className="thanks-authors">
