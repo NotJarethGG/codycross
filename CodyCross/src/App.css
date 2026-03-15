@@ -300,3 +300,6 @@ body {
   text-transform: uppercase;
   z-index: 10;
 }
+.nota{
+  color: rgba(126,255,212,0.6);
+}
