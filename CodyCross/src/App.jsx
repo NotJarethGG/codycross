@@ -12,6 +12,7 @@ function App() {
       setTimeout(() => setGlitch(false), 200)
     }, 3500)
 
+    // Load Tenor embed script
     const script = document.createElement('script')
     script.src = 'https://tenor.com/embed.js'
     script.async = true
@@ -27,6 +28,20 @@ function App() {
     <div className={`error-page ${visible ? 'visible' : ''}`}>
       <div className="noise" />
       <div className="scanlines" />
+
+      {/* Spotify player — top right corner */}
+      <div className="spotify-wrap">
+        <iframe
+          data-testid="embed-iframe"
+          style={{ borderRadius: '12px' }}
+          src="https://open.spotify.com/embed/track/7lcbpfihslisNObKdHjyLo?utm_source=generator&theme=0"
+          width="300"
+          height="80"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+      </div>
 
       <div className="error-container">
         <div className="error-code-wrap">
