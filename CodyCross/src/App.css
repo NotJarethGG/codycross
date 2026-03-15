@@ -133,6 +133,20 @@ body {
   100% { clip-path: polygon(0 5%,  100% 5%,  100% 15%, 0 15%); transform: translateX(2px); }
 }
 
+/* GIF */
+.gif-wrap {
+  width: 180px;
+  margin: 0 auto 1.5rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  filter: grayscale(20%);
+  transition: filter 0.3s;
+}
+
+.gif-wrap:hover {
+  filter: grayscale(0%);
+}
+
 /* Divider */
 .divider {
   width: clamp(60px, 12vw, 140px);
