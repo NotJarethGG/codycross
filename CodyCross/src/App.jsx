@@ -1,15 +1,25 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+const AUTHORS = [
+  "Priscilla Cruz Torres",
+  "Hillary Santana Sequeira",
+  "Daniela Martinez Serrano",
+  "Nicole Steffany Fonseca",
+  "Keiel Mayorga Martinez",
+  "Valeria Concepción Álvarez",
+]
+
 function App() {
-  const [glitch, setGlitch] = useState(false)
+  const [pulse, setPulse] = useState(false)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 100)
+
     const interval = setInterval(() => {
-      setGlitch(true)
-      setTimeout(() => setGlitch(false), 200)
+      setPulse(true)
+      setTimeout(() => setPulse(false), 200)
     }, 3500)
 
     const script = document.createElement('script')
@@ -28,18 +38,19 @@ function App() {
       <div className="noise" />
       <div className="scanlines" />
 
-     
-
       <div className="error-container">
+
+        {/* ── Título ── */}
         <div className="error-code-wrap">
-          <span className="label">CÓDIGO DE ERROR</span>
-          <h1 className={`error-code ${glitch ? 'glitch' : ''}`} data-text="404">
-            404
-          </h1>
+          <h1 className="label">¡MISIÓN CUMPLIDA!</h1>
+          {/* <h6 className={`error-code ${pulse ? 'glitch' : ''}`} data-text="GG">
+            GG
+          </h6> */}
         </div>
 
         <div className="divider" />
 
+        {/* ── GIF ── */}
         <div className="gif-wrap">
           <div
             className="tenor-gif-embed"
@@ -50,28 +61,42 @@ function App() {
           />
         </div>
 
+        {/* ── Cuerpo ── */}
         <div className="error-body">
-          <h2 className="error-title">Página no encontrada</h2>
+          <h2 className="error-title">¡Gracias por jugar! 🧪</h2>
           <p className="error-desc">
-            La ruta que buscas no existe, fue movida,<br />
-            o nunca estuvo aquí para empezar.
+            Completaste el crucigrama de automatización<br />
+            en laboratorio clínico. ¡Excelente trabajo!
           </p>
-          <p className="error-tagline">Aún tienes tiempo para hacer algo mejor ✌🏼.</p>
+          <p className="error-tagline">
+            Esperamos que hayas aprendido algo nuevo hoy 🔬✌🏼
+          </p>
+
+          {/* ── Autores ── */}
+          <div className="thanks-authors">
+            <p className="thanks-label">Desarrollado con 💚 por</p>
+            <div className="thanks-names">
+              {AUTHORS.map((name, i) => (
+                <span key={i} className="thanks-name">
+                  <span className="thanks-dot">●</span>{name}
+                </span>
+              ))}
+            </div>
+          </div>
 
           <div className="error-actions">
             <a href="/" className="btn-primary">
-              <span>← Volver al inicio</span>
+              <span>↺ Jugar de nuevo</span>
             </a>
-            <button className="btn-secondary" onClick={() => window.history.back()}>
-              Página anterior
-            </button>
           </div>
         </div>
+
       </div>
 
+      {/* ── Footer ── */}
       <footer className="error-footer">
-        <span>ERROR · {new Date().toLocaleDateString('es-CR')}</span>
-        <span>SISTEMA NO DISPONIBLE</span>
+        <span>LABORATORIO CLÍNICO · {new Date().toLocaleDateString('es-CR')}</span>
+        <span>AUTOMATIZACIÓN 🧬</span>
       </footer>
     </div>
   )
