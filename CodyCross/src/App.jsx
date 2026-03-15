@@ -56,7 +56,7 @@ function App() {
             La ruta que buscas no existe, fue movida,<br />
             o nunca estuvo aquí para empezar.
           </p>
-          <p className="error-tagline">✌🏼 Aún tienes tiempo para hacer algo mejor.</p>
+          <p className="error-tagline">Aún tienes tiempo para hacer algo mejor ✌🏼.</p>
 
           <div className="error-actions">
             <a href="/" className="btn-primary">
