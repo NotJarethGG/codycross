@@ -267,27 +267,34 @@ body {
 }
 
 /* Spotify player */
-.spotify-wrap {
+/* YouTube player */
+.youtube-wrap {
   position: fixed;
   top: 1.5rem;
-  right: 1.5rem;
+  left: 1.5rem;
   z-index: 100;
-  width: 300px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  border-radius: 12px;
+  width: 280px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7);
   opacity: 0;
   transform: translateY(-8px);
-  animation: spotify-in 0.6s ease 0.4s forwards;
+  animation: yt-in 0.6s ease 0.4s forwards;
 }
-
-@keyframes spotify-in {
+ 
+.youtube-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 158px;
+}
+ 
+@keyframes yt-in {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-
+ 
 .error-tagline {
   font-size: 0.85rem;
   color: #555;
