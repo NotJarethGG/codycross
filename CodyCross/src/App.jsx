@@ -28,8 +28,19 @@ function App() {
       <div className="noise" />
       <div className="scanlines" />
 
-      {/* Spotify — esquina superior derecha, autoplay activado */}
-  
+      {/* YouTube player — esquina superior derecha, inicia en 3:01, sin controles */}
+      <div className="youtube-wrap">
+        <iframe
+          width="280"
+          height="158"
+          src="https://www.youtube.com/embed/otWSMRvaaqk?si=g6Qyl_r0QA7K4oip&controls=0&start=181&autoplay=1&mute=0"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
 
       <div className="error-container">
         <div className="error-code-wrap">
