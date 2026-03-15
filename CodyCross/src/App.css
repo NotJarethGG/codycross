@@ -266,6 +266,28 @@ body {
   background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
 }
 
+/* Spotify player */
+.spotify-wrap {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  width: 300px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: spotify-in 0.6s ease 0.4s forwards;
+}
+
+@keyframes spotify-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .error-tagline {
   font-size: 0.85rem;
   color: #555;
