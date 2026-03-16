@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 import "./styles.css";
 
 const WORDS = [
@@ -73,8 +72,6 @@ const WORD_NUMBER = {};
 for (const w of LAYOUT) WORD_NUMBER[w.id] = NUMBER_LABELS[`${w.row},${w.col}`];
 
 export default function Cody() {
-  const navigate = useNavigate();
-
   const [inputs, setInputs] = useState(() => {
     const init = {};
     for (const w of WORDS) init[w.id] = Array(w.answer.length).fill("");
@@ -82,28 +79,12 @@ export default function Cody() {
   });
   const [activeWord, setActiveWord] = useState(null);
   const [activeCell, setActiveCell] = useState(null);
-  const [revealed,  setRevealed]  = useState({});
-  const [countdown, setCountdown] = useState(null);
+  const [revealed,   setRevealed]   = useState({});
   const inputRefs = useRef({});
-  // Flag para saber si el foco viene de movimiento programático (no click del usuario)
   const isProgrammaticFocus = useRef(false);
 
   const isWordSolved = (id) => inputs[id].join("") === WORDS.find(w => w.id === id).answer;
   const allSolved = WORDS.every(w => isWordSolved(w.id));
-
-  useEffect(() => {
-    if (allSolved) setCountdown(10);
-  }, [allSolved]);
-
-  useEffect(() => {
-    if (countdown === null) return;
-    if (countdown === 0) {
-      navigate("/404");
-      return;
-    }
-    const t = setTimeout(() => setCountdown(c => c - 1), 1000);
-    return () => clearTimeout(t);
-  }, [countdown, navigate]);
 
   const getCellValue = (r, c) => {
     const cell = CELL_MAP[r]?.[c];
@@ -113,7 +94,6 @@ export default function Cody() {
     return inputs[ref.wordId][ref.letterIdx] || "";
   };
 
-  // focusCell: mueve el foco SIN cambiar la palabra activa por onFocus
   const focusCell = (r, c, wordId) => {
     setActiveCell({ r, c });
     setActiveWord(wordId);
@@ -123,12 +103,11 @@ export default function Cody() {
     }, 0);
   };
 
-  // handleCellClick: solo se ejecuta en clicks reales del usuario
   const handleCellClick = (r, c) => {
     const cell = CELL_MAP[r]?.[c];
     if (!cell) return;
 
-    // Si hace click en la misma celda activa → alternar dirección
+    // Click en la misma celda activa → alternar dirección
     if (activeCell?.r === r && activeCell?.c === c && cell.wordCells.length > 1) {
       const other = cell.wordCells.find(wc => wc.wordId !== activeWord);
       if (other) {
@@ -150,13 +129,11 @@ export default function Cody() {
     focusCell(r, c, cell.wordCells[0].wordId);
   };
 
-  // onFocus del input: solo actúa si es un foco manual del usuario (Tab, click externo)
   const handleFocus = (r, c) => {
     if (isProgrammaticFocus.current) {
       isProgrammaticFocus.current = false;
-      return; // foco programático → no hacer nada, la palabra ya fue seteada en focusCell
+      return;
     }
-    // Foco real del usuario (ej: Tab)
     handleCellClick(r, c);
   };
 
@@ -259,7 +236,6 @@ export default function Cody() {
     setActiveWord(null);
     setActiveCell(null);
     setRevealed({});
-    setCountdown(null);
   };
 
   const horizontalWords = LAYOUT.filter(w => w.dir === "H").map(w => w.id);
@@ -442,10 +418,13 @@ export default function Cody() {
             <div className="win-confetti">🎉🧪🔬⚗️🎊</div>
             <h2>¡Crucigrama Completado!</h2>
             <p>¡Excelente trabajo! Resolviste todos los términos.</p>
-            <div className="win-countdown">
-              <span className="countdown-num">{countdown ?? 10}</span>
+            <div className="win-authors">
+              <div className="win-authors-title">Creado por</div>
+              {AUTHORS.map((name, i) => (
+                <div key={i} className="win-author-name">● {name}</div>
+              ))}
             </div>
-            <p className="countdown-label">Redirigiendo en {countdown ?? 10}s…</p>
+            <button className="cc-reset" onClick={resetAll}>↺ Jugar de nuevo</button>
           </div>
         </div>
       )}
