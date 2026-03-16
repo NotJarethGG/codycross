@@ -85,16 +85,16 @@ export default function Cody() {
   const [revealed,  setRevealed]  = useState({});
   const [countdown, setCountdown] = useState(null);
   const inputRefs = useRef({});
+  // Flag para saber si el foco viene de movimiento programático (no click del usuario)
+  const isProgrammaticFocus = useRef(false);
 
   const isWordSolved = (id) => inputs[id].join("") === WORDS.find(w => w.id === id).answer;
   const allSolved = WORDS.every(w => isWordSolved(w.id));
 
-  // Arranca el contador cuando se completa el crucigrama
   useEffect(() => {
     if (allSolved) setCountdown(10);
   }, [allSolved]);
 
-  // Cuenta regresiva y redirige al llegar a 0
   useEffect(() => {
     if (countdown === null) return;
     if (countdown === 0) {
@@ -113,21 +113,51 @@ export default function Cody() {
     return inputs[ref.wordId][ref.letterIdx] || "";
   };
 
+  // focusCell: mueve el foco SIN cambiar la palabra activa por onFocus
   const focusCell = (r, c, wordId) => {
     setActiveCell({ r, c });
     setActiveWord(wordId);
-    setTimeout(() => inputRefs.current[`${r},${c}`]?.focus(), 0);
+    isProgrammaticFocus.current = true;
+    setTimeout(() => {
+      inputRefs.current[`${r},${c}`]?.focus();
+    }, 0);
   };
 
+  // handleCellClick: solo se ejecuta en clicks reales del usuario
   const handleCellClick = (r, c) => {
     const cell = CELL_MAP[r]?.[c];
     if (!cell) return;
+
+    // Si hace click en la misma celda activa → alternar dirección
     if (activeCell?.r === r && activeCell?.c === c && cell.wordCells.length > 1) {
       const other = cell.wordCells.find(wc => wc.wordId !== activeWord);
-      if (other) { setActiveWord(other.wordId); return; }
+      if (other) {
+        setActiveWord(other.wordId);
+        isProgrammaticFocus.current = true;
+        setTimeout(() => inputRefs.current[`${r},${c}`]?.focus(), 0);
+      }
+      return;
     }
-    const preferred = cell.wordCells.find(wc => wc.wordId === activeWord);
-    focusCell(r, c, (preferred || cell.wordCells[0]).wordId);
+
+    // Si la celda pertenece a la palabra activa, mantenerse en ella
+    const keepCurrent = cell.wordCells.find(wc => wc.wordId === activeWord);
+    if (keepCurrent) {
+      focusCell(r, c, activeWord);
+      return;
+    }
+
+    // Nueva celda sin relación con la palabra activa
+    focusCell(r, c, cell.wordCells[0].wordId);
+  };
+
+  // onFocus del input: solo actúa si es un foco manual del usuario (Tab, click externo)
+  const handleFocus = (r, c) => {
+    if (isProgrammaticFocus.current) {
+      isProgrammaticFocus.current = false;
+      return; // foco programático → no hacer nada, la palabra ya fue seteada en focusCell
+    }
+    // Foco real del usuario (ej: Tab)
+    handleCellClick(r, c);
   };
 
   const syncIntersection = (r, c, newInputs, fromWordId) => {
@@ -157,8 +187,16 @@ export default function Cody() {
     setInputs(newInputs);
     if (ch) {
       const cells = WORD_CELLS[activeWord];
-      const nextIdx = wc.letterIdx + 1;
-      if (nextIdx < cells.length) focusCell(cells[nextIdx].r, cells[nextIdx].c, activeWord);
+      const word  = WORDS.find(w => w.id === activeWord);
+      // Avanza saltando celdas que ya tienen la letra correcta por intersección
+      let nextIdx = wc.letterIdx + 1;
+      while (nextIdx < cells.length) {
+        if (newInputs[activeWord][nextIdx] !== word.answer[nextIdx]) break;
+        nextIdx++;
+      }
+      if (nextIdx < cells.length) {
+        focusCell(cells[nextIdx].r, cells[nextIdx].c, activeWord);
+      }
     }
   };
 
@@ -255,7 +293,7 @@ export default function Cody() {
           value={val}
           onChange={e => handleInput(e, r, c)}
           onKeyDown={e => handleKeyDown(e, r, c)}
-          onFocus={() => handleCellClick(r, c)}
+          onFocus={() => handleFocus(r, c)}
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
@@ -401,18 +439,13 @@ export default function Cody() {
       {allSolved && (
         <div className="cc-win-overlay">
           <div className="cc-win-box">
-
             <div className="win-confetti">🎉🧪🔬⚗️🎊</div>
-
             <h2>¡Crucigrama Completado!</h2>
             <p>¡Excelente trabajo! Resolviste todos los términos.</p>
-
-            {/* Contador */}
             <div className="win-countdown">
               <span className="countdown-num">{countdown ?? 10}</span>
             </div>
             <p className="countdown-label">Redirigiendo en {countdown ?? 10}s…</p>
-
           </div>
         </div>
       )}
