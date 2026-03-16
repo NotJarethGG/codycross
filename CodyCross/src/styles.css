@@ -309,6 +309,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  align-self: flex-start;
+  /* margin-top iguala el alto del .grid-label (12px line-height ~18px) + gap 10px = 28px */
+  margin-top: 28px;
 }
 
 .clue-section {
@@ -331,7 +334,6 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: none;
 }
 
 .clue-arrow { font-size: 14px; }
@@ -423,6 +425,7 @@ body {
   transition: all 0.2s;
   align-self: center;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .cc-reset:hover {
@@ -596,9 +599,10 @@ body {
 
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 800px) {
-  .cc-main { flex-wrap: wrap; padding: 16px 12px; justify-content: center; }
+  .cc-main { flex-wrap: wrap; padding: 16px 12px; justify-content: center; align-items: flex-start; }
   .cc-grid-wrap { flex-shrink: 1; }
-  .cc-clues { max-width: 100%; width: 100%; }
+  .cc-clues { max-width: 100%; width: 100%; align-self: auto; margin-top: 0; }
+  .cc-clues ul { max-height: 220px; }
   .cell-letter, .cell-empty { width: 26px; height: 26px; }
   .cell-input { font-size: 11px; padding-top: 4px; }
   .cell-number { font-size: 6px; }
