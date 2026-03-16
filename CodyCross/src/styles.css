@@ -6,7 +6,7 @@
 /* ─── Body / App background ─────────────────────────────── */
 body {
   font-family: 'Nunito', sans-serif;
-  background: #0a0a0a;
+  background: #0b1f2e;
   min-height: 100vh;
 }
 
@@ -15,7 +15,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0a0a0a;
+  background:
+    radial-gradient(ellipse 70% 40% at 20% 10%, rgba(0,180,160,0.12), transparent),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,120,200,0.10), transparent),
+    linear-gradient(160deg, #0b1f2e 0%, #0d2840 50%, #0b1f2e 100%);
   position: relative;
   overflow-x: hidden;
 }
@@ -32,7 +35,7 @@ body {
 .bubble {
   position: absolute;
   font-size: 28px;
-  opacity: 0.04;
+  opacity: 0.06;
   animation: floatUp 14s ease-in-out infinite;
   user-select: none;
 }
@@ -44,8 +47,8 @@ body {
 .b6 { left: 65%; top: 10%; animation-delay: 3s;   animation-duration: 16s; font-size: 30px; }
 
 @keyframes floatUp {
-  0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.04; }
-  50%      { transform: translateY(-30px) rotate(8deg); opacity: 0.07; }
+  0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.06; }
+  50%      { transform: translateY(-30px) rotate(8deg); opacity: 0.1; }
 }
 
 /* ─── Header ─────────────────────────────────────────────── */
@@ -53,14 +56,14 @@ body {
   position: relative;
   z-index: 10;
   width: 100%;
-  background: #111111;
+  background: linear-gradient(135deg, #006d77 0%, #008fa3 50%, #00b4c8 100%);
   padding: 14px 28px;
   display: flex;
   align-items: center;
   gap: 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.8);
+  box-shadow: 0 4px 24px rgba(0,180,200,0.3);
   flex-wrap: wrap;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
 }
 
 /* Logo */
@@ -74,15 +77,15 @@ body {
 .logo-icon { font-size: 28px; margin-right: 4px; }
 
 .logo-c {
-  background: #1a1a1a;
-  color: #7effd4;
+  background: #fff;
+  color: #006d77;
   width: 36px; height: 36px;
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Orbitron', sans-serif;
   font-size: 20px;
   font-weight: 900;
-  border: 1px solid rgba(126,255,212,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   flex-shrink: 0;
 }
 
@@ -90,7 +93,7 @@ body {
   font-family: 'Orbitron', sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: #f0ede6;
+  color: #fff;
 }
 
 .logo-cross {
@@ -111,7 +114,8 @@ body {
 .cc-topic {
   font-size: 17px;
   font-weight: 800;
-  color: #f0ede6;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,7 +123,7 @@ body {
 
 .cc-topic-sub {
   font-size: 11px;
-  color: rgba(240,237,230,0.35);
+  color: rgba(255,255,255,0.7);
   font-weight: 600;
   letter-spacing: 0.5px;
   margin-top: 2px;
@@ -164,7 +168,7 @@ body {
 
 .score-label {
   font-size: 10px;
-  color: rgba(240,237,230,0.35);
+  color: rgba(255,255,255,0.7);
   font-weight: 700;
   letter-spacing: 0.5px;
 }
@@ -195,7 +199,7 @@ body {
 .grid-label {
   font-size: 12px;
   font-weight: 800;
-  color: rgba(126,255,212,0.5);
+  color: rgba(126,255,212,0.7);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -205,12 +209,13 @@ body {
 .cc-grid {
   border-collapse: separate;
   border-spacing: 2px;
-  background: #0a0a0a;
+  background: #071420;
   border-radius: 12px;
   padding: 6px;
   box-shadow:
-    0 0 0 1px rgba(126,255,212,0.08),
-    0 8px 32px rgba(0,0,0,0.9);
+    0 0 0 2px rgba(0,180,200,0.2),
+    0 8px 32px rgba(0,0,0,0.5),
+    inset 0 0 30px rgba(0,150,180,0.04);
 }
 
 /* ─── Cells ───────────────────────────────────────────────── */
@@ -221,8 +226,8 @@ body {
 
 .cell-letter {
   width: 38px; height: 38px;
-  background: #141414;
-  border: 1px solid #2a2a2a;
+  background: #f0f8ff;
+  border: 1.5px solid #a8cde8;
   border-radius: 5px;
   position: relative;
   cursor: pointer;
@@ -230,40 +235,40 @@ body {
 }
 
 .cell-letter:hover {
-  background: #1e1e1e;
-  border-color: rgba(126,255,212,0.5);
+  background: #dff0fb;
+  border-color: #00b4c8;
   transform: scale(1.04);
   z-index: 2;
 }
 
 /* Highlighted word */
 .cell-highlight {
-  background: #0f1f1a !important;
-  border-color: rgba(126,255,212,0.3) !important;
+  background: #cdf0f7 !important;
+  border-color: #00b4c8 !important;
 }
 
 /* Active cell */
 .cell-active {
-  background: #003d36 !important;
-  border-color: #7effd4 !important;
-  box-shadow: 0 0 0 2px #7effd4, 0 2px 10px rgba(0,63,54,0.6) !important;
+  background: #006d77 !important;
+  border-color: #004d55 !important;
+  box-shadow: 0 0 0 2px #7effd4, 0 2px 10px rgba(0,109,119,0.5) !important;
   transform: scale(1.06) !important;
   z-index: 3 !important;
 }
 
-.cell-active .cell-input  { color: #7effd4 !important; }
-.cell-active .cell-number { color: rgba(126,255,212,0.6) !important; }
+.cell-active .cell-input  { color: #fff !important; }
+.cell-active .cell-number { color: rgba(255,255,255,0.75) !important; }
 
 /* Solved */
 .cell-solved {
-  background: #0a1f12 !important;
-  border-color: rgba(46,204,113,0.4) !important;
+  background: #d4f5e2 !important;
+  border-color: #2ecc71 !important;
 }
 
 /* Revealed */
 .cell-revealed {
-  background: #1f1500 !important;
-  border-color: rgba(240,165,0,0.35) !important;
+  background: #fff8cc !important;
+  border-color: #f0a500 !important;
 }
 
 /* Cell number label */
@@ -272,7 +277,7 @@ body {
   top: 1px; left: 2px;
   font-size: 7.5px;
   font-weight: 900;
-  color: #7effd4;
+  color: #006d77;
   line-height: 1;
   pointer-events: none;
   z-index: 1;
@@ -289,7 +294,7 @@ body {
   font-family: 'Nunito', sans-serif;
   font-size: 15px;
   font-weight: 900;
-  color: #f0ede6;
+  color: #0b3a50;
   text-transform: uppercase;
   cursor: pointer;
   caret-color: transparent;
@@ -307,15 +312,17 @@ body {
 }
 
 .clue-section {
-  background: #111111;
-  border: 1px solid #1a1a1a;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(0,180,200,0.15);
   border-radius: 14px;
   overflow: hidden;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .clue-heading {
-  background: #161616;
-  color: #7effd4;
+  background: linear-gradient(90deg, #006d77, #008fa3);
+  color: #fff;
   padding: 11px 16px;
   font-size: 12px;
   font-weight: 900;
@@ -324,7 +331,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: none;
 }
 
 .clue-arrow { font-size: 14px; }
@@ -337,7 +344,7 @@ body {
 }
 
 .cc-clues ul::-webkit-scrollbar { width: 4px; }
-.cc-clues ul::-webkit-scrollbar-thumb { background: rgba(126,255,212,0.15); border-radius: 2px; }
+.cc-clues ul::-webkit-scrollbar-thumb { background: rgba(0,180,200,0.3); border-radius: 2px; }
 
 /* Clue item */
 .clue-item {
@@ -350,20 +357,20 @@ body {
   border-left: 3px solid transparent;
   font-size: 12.5px;
   line-height: 1.45;
-  color: rgba(240,237,230,0.6);
+  color: rgba(220,240,255,0.85);
 }
 
 .clue-item:hover {
-  background: rgba(126,255,212,0.04);
-  border-left-color: rgba(126,255,212,0.4);
+  background: rgba(0,180,200,0.1);
+  border-left-color: #00b4c8;
 }
 
 .clue-active {
-  background: rgba(126,255,212,0.07) !important;
+  background: rgba(0,180,200,0.15) !important;
   border-left-color: #7effd4 !important;
 }
 
-.clue-solved { opacity: 0.35; }
+.clue-solved { opacity: 0.45; }
 
 .clue-num {
   font-weight: 900;
@@ -375,7 +382,7 @@ body {
 
 .clue-text {
   flex: 1;
-  color: rgba(240,237,230,0.7);
+  color: rgba(220,240,255,0.9);
 }
 
 .clue-check {
@@ -388,8 +395,8 @@ body {
 /* Reveal button */
 .clue-reveal {
   flex-shrink: 0;
-  background: rgba(240,165,0,0.07);
-  border: 1px solid rgba(240,165,0,0.25);
+  background: rgba(240,165,0,0.12);
+  border: 1px solid rgba(240,165,0,0.4);
   color: #f0c040;
   font-family: 'Nunito', sans-serif;
   font-size: 10px;
@@ -400,12 +407,12 @@ body {
   transition: background 0.15s;
 }
 
-.clue-reveal:hover { background: rgba(240,165,0,0.18); }
+.clue-reveal:hover { background: rgba(240,165,0,0.25); }
 
 /* Reset button */
 .cc-reset {
   background: transparent;
-  border: 1px solid rgba(126,255,212,0.25);
+  border: 2px solid rgba(126,255,212,0.4);
   color: #7effd4;
   font-family: 'Nunito', sans-serif;
   font-size: 13px;
@@ -419,8 +426,9 @@ body {
 }
 
 .cc-reset:hover {
-  background: rgba(126,255,212,0.05);
+  background: rgba(126,255,212,0.12);
   border-color: #7effd4;
+  box-shadow: 0 0 16px rgba(126,255,212,0.2);
 }
 
 /* ─── Footer / Authors ────────────────────────────────────── */
@@ -429,9 +437,10 @@ body {
   z-index: 5;
   width: 100%;
   margin-top: auto;
-  background: #0a0a0a;
-  border-top: 1px solid #161616;
+  background: rgba(0,0,0,0.35);
+  border-top: 1px solid rgba(0,180,200,0.15);
   padding: 14px 24px;
+  backdrop-filter: blur(8px);
 }
 
 .footer-inner {
@@ -443,14 +452,14 @@ body {
   justify-content: center;
 }
 
-.footer-badge { font-size: 22px; opacity: 0.4; flex-shrink: 0; }
+.footer-badge { font-size: 22px; opacity: 0.7; flex-shrink: 0; }
 
 .footer-content { text-align: center; flex: 1; }
 
 .footer-title {
   font-size: 10px;
   font-weight: 800;
-  color: rgba(126,255,212,0.4);
+  color: rgba(126,255,212,0.6);
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 6px;
@@ -467,7 +476,7 @@ body {
 .footer-name {
   font-size: 12px;
   font-weight: 700;
-  color: rgba(240,237,230,0.5);
+  color: rgba(200,235,255,0.8);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -480,7 +489,7 @@ body {
 .cc-win-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.92);
+  background: rgba(5,15,30,0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -490,16 +499,16 @@ body {
 }
 
 .cc-win-box {
-  background: #111111;
-  border: 1px solid #222222;
+  background: linear-gradient(145deg, #0d2840, #0f3550);
+  border: 2px solid rgba(126,255,212,0.3);
   border-radius: 24px;
   padding: 40px 48px;
   text-align: center;
   box-shadow:
-    0 0 0 1px rgba(126,255,212,0.06),
-    0 20px 60px rgba(0,0,0,0.95);
+    0 0 60px rgba(0,180,200,0.2),
+    0 20px 60px rgba(0,0,0,0.7);
   animation: popUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  max-width: 400px;
+  max-width: 480px;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -521,49 +530,42 @@ body {
 }
 
 .cc-win-box > p {
-  color: rgba(240,237,230,0.45);
+  color: rgba(200,235,255,0.75);
   font-size: 0.82rem;
   line-height: 1.7;
   margin: 0;
 }
 
-/* ── Countdown ── */
-.win-countdown {
-  position: relative;
-  width: 72px;
-  height: 72px;
-  margin: 4px auto 0;
-}
-
-.countdown-ring {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-}
-
-.countdown-num {
-  position: absolute;
-  inset: 0;
+.win-authors {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(126,255,212,0.15);
+  border-radius: 12px;
+  padding: 14px 18px;
   display: flex;
+  flex-direction: column;
+  gap: 4px;
   align-items: center;
-  justify-content: center;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: #7effd4;
+  width: 100%;
 }
 
-.countdown-label {
-  font-size: 0.7rem;
-  color: rgba(240,237,230,0.3);
-  letter-spacing: 0.08em;
+.win-authors-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(126,255,212,0.6);
+  letter-spacing: 2px;
   text-transform: uppercase;
-  margin: 0;
+  margin-bottom: 6px;
+}
+
+.win-author-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(200,235,255,0.85);
 }
 
 .cc-win-box button {
-  background: #7effd4;
-  color: #0a0a0a;
+  background: linear-gradient(135deg, #006d77, #009eb5);
+  color: #fff;
   border: none;
   font-family: 'Nunito', sans-serif;
   font-size: 0.88rem;
@@ -571,14 +573,15 @@ body {
   padding: 12px 32px;
   border-radius: 30px;
   cursor: pointer;
-  transition: transform 0.15s, background 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s;
   letter-spacing: 0.05em;
+  box-shadow: 0 4px 20px rgba(0,158,181,0.4);
   margin-top: 4px;
 }
 
 .cc-win-box button:hover {
   transform: scale(1.05);
-  background: #a8ffe4;
+  box-shadow: 0 6px 28px rgba(0,158,181,0.6);
 }
 
 /* ─── Animations ──────────────────────────────────────────── */
