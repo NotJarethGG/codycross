@@ -72,7 +72,7 @@ function App() {
             Esperamos que hayas aprendido algo nuevo hoy
           </p>
           <h4 className="nota">
-              ¡Mínimo 100 de nota! 🍡
+              ¡Espero mínimo 100 de nota! Mochi🍡
           </h4>
 
           {/* ── Autores ── */}
